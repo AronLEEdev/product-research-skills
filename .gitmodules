@@ -1,0 +1,9 @@
+[submodule "product-opportunity-finder-skill"]
+	path = product-opportunity-finder-skill
+	url = https://github.com/AronLEEdev/product-opportunity-finder-skill.git
+[submodule "product-cost-analyze-skill"]
+	path = product-cost-analyze-skill
+	url = https://github.com/AronLEEdev/product-cost-analyze-skill.git
+[submodule "product-review-analyze-skill"]
+	path = product-review-analyze-skill
+	url = https://github.com/AronLEEdev/product-review-analyze-skill.git
