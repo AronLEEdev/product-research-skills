@@ -55,6 +55,45 @@ standalone.
 
 ---
 
+## Install
+
+Two ways — pick whichever fits your setup.
+
+### A. Claude Code plugin (one command)
+
+This repo is also a **Claude Code plugin marketplace**. Add it once, then install any of the
+three skills:
+
+```bash
+/plugin marketplace add AronLEEdev/product-research-skills
+/plugin install product-opportunity-finder@product-research-skills
+/plugin install product-cost-analyze@product-research-skills
+/plugin install product-review-analyze@product-research-skills
+```
+
+Each installs as a self-contained plugin (one skill each) and shows up as a `/`-invocable
+skill. Update anytime with `/plugin marketplace update product-research-skills`.
+
+### B. Upload a single `SKILL.md` (any Claude agent)
+
+The skills are plain single-file skills, so they work anywhere Claude runs — claude.ai, the
+Agent SDK, or Claude Code — with **no install at all**. Grab a `SKILL.md` from its repo and
+upload/paste it into the agent:
+
+- Discovery → [product-opportunity-finder-skill](https://github.com/AronLEEdev/product-opportunity-finder-skill)
+- Cost → [product-cost-analyze-skill](https://github.com/AronLEEdev/product-cost-analyze-skill)
+- Review → [product-review-analyze-skill](https://github.com/AronLEEdev/product-review-analyze-skill)
+
+Helper code is embedded in the file and report templates are fetched on demand, so one file is
+the whole skill.
+
+> **Cross-agent note:** the plugin and Skill formats are Claude-native. Non-Claude agents can't
+> install a plugin, but the underlying automation these skills lean on (Claude-in-Chrome) is
+> Claude-specific anyway. For cross-ecosystem tool interop, the portable path is MCP — e.g. the
+> cost skill's fee math is also available as the [`profitlee-mcp`](https://www.npmjs.com/package/profitlee-mcp) server.
+
+---
+
 ## Prerequisites (one-time setup)
 
 Everything runs through **one logged-in Chrome profile**, so sign into each site there first.

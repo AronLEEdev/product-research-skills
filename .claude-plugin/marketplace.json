@@ -1,0 +1,25 @@
+{
+  "name": "product-research-skills",
+  "description": "Amazon-FBA product-research skills for Claude — Discovery, Cost, and Review, plus a combined build/test/pass dossier. Real marketplace data, no fabrication.",
+  "owner": {
+    "name": "Aron Lee",
+    "email": "aronleedev@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "product-opportunity-finder",
+      "source": { "source": "github", "repo": "AronLEEdev/product-opportunity-finder-skill" },
+      "description": "Discovery — turn an Amazon category into a ranked Top-3 niche shortlist (Helium 10 Black Box + deterministic scoring)."
+    },
+    {
+      "name": "product-cost-analyze",
+      "source": { "source": "github", "repo": "AronLEEdev/product-cost-analyze-skill" },
+      "description": "Cost — is a product profitable, and at what price? Real 1688 FOB + Profitlee FBA fee math → ranked margin report."
+    },
+    {
+      "name": "product-review-analyze",
+      "source": { "source": "github", "repo": "AronLEEdev/product-review-analyze-skill" },
+      "description": "Review — mine competitor reviews + Helium 10 market layer → GO/WATCH/SKIP verdict, plus a combined three-phase dossier."
+    }
+  ]
+}
