@@ -8,17 +8,26 @@
   "plugins": [
     {
       "name": "product-opportunity-finder",
-      "source": { "source": "github", "repo": "AronLEEdev/product-opportunity-finder-skill" },
+      "source": {
+        "source": "url",
+        "url": "https://github.com/AronLEEdev/product-opportunity-finder-skill.git"
+      },
       "description": "Discovery — turn an Amazon category into a ranked Top-3 niche shortlist (Helium 10 Black Box + deterministic scoring)."
     },
     {
       "name": "product-cost-analyze",
-      "source": { "source": "github", "repo": "AronLEEdev/product-cost-analyze-skill" },
+      "source": {
+        "source": "url",
+        "url": "https://github.com/AronLEEdev/product-cost-analyze-skill.git"
+      },
       "description": "Cost — is a product profitable, and at what price? Real 1688 FOB + Profitlee FBA fee math → ranked margin report."
     },
     {
       "name": "product-review-analyze",
-      "source": { "source": "github", "repo": "AronLEEdev/product-review-analyze-skill" },
+      "source": {
+        "source": "url",
+        "url": "https://github.com/AronLEEdev/product-review-analyze-skill.git"
+      },
       "description": "Review — mine competitor reviews + Helium 10 market layer → GO/WATCH/SKIP verdict, plus a combined three-phase dossier."
     }
   ]
