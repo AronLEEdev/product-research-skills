@@ -17,27 +17,27 @@ asks you, rather than estimating.
 |---|---|---|---|
 | [**product-opportunity-finder**](https://github.com/AronLEEdev/product-opportunity-finder-skill) | **Discovery** — turn a category into a ranked Top-3 niche shortlist | a category (e.g. *Kitchen & Dining*) | `opportunities.js` + shortlist report |
 | [**product-cost-analyze-for-fba**](https://github.com/AronLEEdev/product-cost-analyze-skill) | **Cost** — is it profitable, and at what price? | a product keyword | `results.js` + margin report |
+| [**product-ppc-analysis**](https://github.com/AronLEEdev/product-ppc-analysis-skill) | **PPC** — what will ads cost, and can the product carry it? | the cost run + a keyword | `ppc.js` + PPC report |
 | [**product-review-analyze-skill**](https://github.com/AronLEEdev/product-review-analyze-skill) | **Review** — buyer pain points + market size + GO/WATCH/SKIP verdict | a product keyword | `reviews.js` + opportunity report, **+ combined dossier** |
 
-The three run as a **pipeline**, and the review skill (the terminal step) also assembles a
-single **Product Dossier** that stitches all three phases into one page.
+The four run as a **pipeline**, and the review skill (the terminal step) also assembles a
+single **Product Dossier** that stitches the phases into one page.
 
 ```
-   CATEGORY                    KEYWORD                        KEYWORD
-      │                          │                               │
-      ▼                          ▼                               ▼
-┌───────────────┐         ┌──────────────┐              ┌──────────────────┐
-│  DISCOVERY    │  pick a │    COST      │   validate   │     REVIEW       │
-│ Top-3 niches  │ ──────▶ │  margins &   │ ──────────▶  │ pain points +    │
-│ (Black Box)   │  niche  │  price band  │   the pick   │ market + verdict │
-└───────────────┘         └──────────────┘              └──────────────────┘
-                                                                  │
-                                                                  ▼
-                                                        ┌──────────────────┐
-                                                        │  PRODUCT DOSSIER │
-                                                        │ BUILD/TEST/PASS  │
-                                                        │ all 3 in one page│
-                                                        └──────────────────┘
+   CATEGORY             KEYWORD              COST RUN              KEYWORD
+      │                   │                     │                     │
+      ▼                   ▼                     ▼                     ▼
+┌─────────────┐ pick ┌─────────────┐      ┌─────────────┐       ┌──────────────┐
+│  DISCOVERY  │ ───▶ │    COST     │ ───▶ │     PPC     │ ────▶ │    REVIEW    │
+│ Top-3 niches│      │ margins     │      │ ad cost from│       │ pain points, │
+│ (Black Box) │      │ BEFORE ads  │      │ market bids │       │ verdict      │
+└─────────────┘      └─────────────┘      └─────────────┘       └──────────────┘
+                                                                        │
+                                                                        ▼
+                                                               ┌──────────────────┐
+                                                               │  PRODUCT DOSSIER │
+                                                               │ BUILD/TEST/PASS  │
+                                                               └──────────────────┘
 ```
 
 ---
@@ -50,7 +50,7 @@ single **Product Dossier** that stitches all three phases into one page.
 3. **Ask** e.g. *"run the cost skill on `stainless steel bento box`"*. The agent connects to
    your Chrome, does the work, and opens the report at `http://localhost:<port>`.
 
-Run the skills **in order** for a full workup: Discovery → Cost → Review. Each also works
+Run the skills **in order** for a full workup: Discovery → Cost → PPC → Review. Each also works
 standalone.
 
 ---
@@ -62,12 +62,13 @@ Two ways — pick whichever fits your setup.
 ### A. Claude Code plugin (one command)
 
 This repo is also a **Claude Code plugin marketplace**. Add it once, then install any of the
-three skills:
+four skills:
 
 ```bash
 /plugin marketplace add AronLEEdev/product-research-skills
 /plugin install product-opportunity-finder@product-research-skills
 /plugin install product-cost-analyze@product-research-skills
+/plugin install product-ppc-analysis@product-research-skills
 /plugin install product-review-analyze@product-research-skills
 ```
 
@@ -82,6 +83,7 @@ upload/paste it into the agent:
 
 - Discovery → [product-opportunity-finder-skill](https://github.com/AronLEEdev/product-opportunity-finder-skill)
 - Cost → [product-cost-analyze-skill](https://github.com/AronLEEdev/product-cost-analyze-skill)
+- PPC → [product-ppc-analysis-skill](https://github.com/AronLEEdev/product-ppc-analysis-skill)
 - Review → [product-review-analyze-skill](https://github.com/AronLEEdev/product-review-analyze-skill)
 
 Helper code is embedded in the file and report templates are fetched on demand, so one file is
@@ -127,7 +129,7 @@ best niche's keyword + example ASIN to the next two skills.
 ### 2 · Cost — `product-cost-analyze-for-fba`
 Given a keyword, captures the top ~10 Amazon listings ($10–$50 band), reverse-image-searches
 **1688** for real wholesale FOB, and runs each through the **Profitlee** FBA-fee engine. Output
-is a ranked profitability table (net margin after PPC/returns/storage) with survivors, eliminated
+is a ranked profitability table (margin **before ads**, after fees/returns/storage) with survivors, eliminated
 listings, and a recommended price band.
 
 - The FBA math lives in Profitlee's tested engine, not in the skill. Pack-count aware (landed
@@ -135,7 +137,21 @@ listings, and a recommended price band.
 - **Caveat it surfaces:** 1688 image-matching can be noisy — check each row's `matchedTitle`
   before trusting a very-high margin.
 
-### 3 · Review — `product-review-analyze-skill`
+### 3 · PPC — `product-ppc-analysis`
+Prices the advertising from **market click costs** instead of a flat ACoS guess. Reads the cost
+run, pulls Helium 10 Cerebro's top-50 keywords with their **Suggested PPC Bid** (reopening a saved
+search from History costs no lookup), tags each keyword generic / competitor brand / other
+product, and reports: the click price over winnable keywords, **break-even conversion**, the
+**share of sales that must come without ads** to break even at a mature conversion (the verdict),
+launch payback, lowest viable price, and the keyword market's shape (winnable volume, sales per
+100 searches, top-3 share of sales). Every report sits beside two reference products.
+
+- **Why it exists:** our $13.99 pet hair glove passed the old cost check at a 24% margin; its
+  market clicks needed roughly half of all clicks to convert just to pay for themselves.
+- **Provisional:** the 50% / 70% verdict lines, the ×1.8 Helium-to-Amazon bid scaling and the 10%
+  mature conversion are set from two products and will be recalibrated.
+
+### 4 · Review — `product-review-analyze-skill`
 Mines critical + positive Amazon reviews for the top listings, clusters them into complaint /
 praise themes with real quotes, and — when Helium 10 is available — adds a **market layer**:
 Cerebro keyword demand + Xray 30-day revenue/units, producing a **GO / WATCH / SKIP** verdict
@@ -156,6 +172,7 @@ budget is **Helium 10 metered lookups** and **Claude tokens**.
 |---|---|---|---|---|---|
 | Discovery | **≤ 3** Black Box | — | — | 5–10 min | **0 lookups** |
 | Cost | **0** | 1 batch (creates a sourcing task) | ~10 free calls | 8–15 min | **0** — skips 1688 |
+| PPC | **0** if the Cerebro search is in History, else **1** | — | — | 5–10 min | **0** |
 | Review | **1** Cerebro + a few Xray "load sales" | — | — | 8–15 min | **0** — incl. the metered Cerebro |
 
 **Helium 10 metering:** Cerebro / Magnet / Black Box lookups draw from your **monthly plan quota**
@@ -182,6 +199,8 @@ fresh pull.
 - **Discovery: use a subcategory**, not a top-level category, to avoid skew.
 - **Respect the ≤ 3 metered-lookup cap** — the skills track it; cached artifacts count as 0.
 - **Re-runs are cheap** — the 14-day cache means iterating on the same product is near-free.
+- **Check what ads will cost before ordering.** A healthy margin before ads means nothing if the
+  market's clicks cost more than a sale earns — run the PPC skill on every pick.
 - **Pricing: don't undercut.** The cost report's margin floor is real — below it you're buying
   market share with your own money. Premium/differentiated positioning usually wins on margin.
 - **When sampling suppliers, test the #1 complaint on the sample** (from the review report), in

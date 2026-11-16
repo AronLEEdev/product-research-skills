@@ -7,3 +7,6 @@
 [submodule "product-review-analyze-skill"]
 	path = product-review-analyze-skill
 	url = https://github.com/AronLEEdev/product-review-analyze-skill.git
+[submodule "product-ppc-analysis-skill"]
+	path = product-ppc-analysis-skill
+	url = https://github.com/AronLEEdev/product-ppc-analysis-skill.git

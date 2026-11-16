@@ -1,6 +1,6 @@
 {
   "name": "product-research-skills",
-  "description": "Amazon-FBA product-research skills for Claude — Discovery, Cost, and Review, plus a combined build/test/pass dossier. Real marketplace data, no fabrication.",
+  "description": "Amazon-FBA product-research skills for Claude — Discovery, Cost, PPC and Review, plus a combined build/test/pass dossier. Real marketplace data, no fabrication.",
   "owner": {
     "name": "Aron Lee",
     "email": "aronleedev@gmail.com"
@@ -21,6 +21,14 @@
         "url": "https://github.com/AronLEEdev/product-cost-analyze-skill.git"
       },
       "description": "Cost — is a product profitable, and at what price? Real 1688 FOB + Profitlee FBA fee math → ranked margin report."
+    },
+    {
+      "name": "product-ppc-analysis",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/AronLEEdev/product-ppc-analysis-skill.git"
+      },
+      "description": "PPC — what will ads cost? Helium 10 suggested bids → break-even conversion, sales needed without ads, launch payback and the keyword market."
     },
     {
       "name": "product-review-analyze",
